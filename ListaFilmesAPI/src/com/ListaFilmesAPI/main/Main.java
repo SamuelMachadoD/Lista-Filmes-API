@@ -2,6 +2,7 @@ package com.ListaFilmesAPI.main;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import com.ListaFilmesAPI.figurinhas.GeradorDeFigurinhas;
 
 public class Main {
 
@@ -29,15 +32,26 @@ public class Main {
 		JsonParser parser = new JsonParser();
 		List<Map<String, String>> listaDeFilmes = parser.parse(body);
 		
+		//Cria o gerador de figurinhas
+		var gerador = new GeradorDeFigurinhas();
 		
 		// exibir e manipular os dados e gera ASCII arte
 		for (Map<String, String> filme : listaDeFilmes) { //passa por cada filme da listaDeFilmes
-			System.out.println("\u001b[1m\u001b[40m Rank: " + filme.get("rank") + " \u001b[m");
-			System.out.println("\u001b[1m\u001b[47m\u001b[30m " + filme.get("title") + " \u001b[m");
+			
+			String titulo = filme.get("title");
+			String rank = filme.get("rank");
+			System.out.println("\u001b[1m\u001b[40m Rank: " + rank + " \u001b[m");
+			System.out.println("\u001b[1m\u001b[47m\u001b[30m " + titulo + " \u001b[m");
 			System.out.println("\u001b[43m\u001b[1m Rating: " + filme.get("imDbRating") + " \u001b[m");
-			//Gera art ASCII
+			
+			//Gera art ASCII e cria figurinhas
 			String img = filme.get("image");
 			System.out.println(geraASCII(img));
+			
+			InputStream inputStream = new URL(img).openStream();
+			titulo = titulo.replace(":", "-");
+			rank = "Posição : " + rank;
+			gerador.cria(inputStream, titulo, rank);
 			System.out.println();
 			
 			// escreve o que esta na chave desejada
