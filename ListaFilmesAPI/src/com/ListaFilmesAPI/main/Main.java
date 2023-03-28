@@ -20,7 +20,6 @@ public class Main {
 		var request = HttpRequest.newBuilder(endereco).GET().build();//Faz uma request com a URL //o mesmo do var pode ocorrer aqui
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());//Gera uma resposta a partir do cliente e request
 		String body = response.body();  // armazena o body da reposta em uma variavel
-		System.out.println(body);
 		
 		// extrair só os dados que interessam (titulo, poster, classificação)
 		JsonParser parser = new JsonParser();
