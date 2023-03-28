@@ -1,13 +1,19 @@
 package com.ListaFilmesAPI.main;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 public class Main {
 
@@ -26,15 +32,56 @@ public class Main {
 		List<Map<String, String>> listaDeFilmes = parser.parse(body);
 		
 		
-		// exibir e manipular os dados
+		// exibir e manipular os dados e gera ASCII arte
 		for (Map<String, String> filme : listaDeFilmes) { //passa por cada filme da listaDeFilmes
 			System.out.println("---------------------");
 			System.out.println("\u001b[1m\u001b[40m Rank: " + filme.get("rank") + " \u001b[m");
 			System.out.println("\u001b[1m\u001b[47m\u001b[30m " + filme.get("title") + " \u001b[m");
-			System.out.println(filme.get("image"));
+			//Gera art ASCII
+			String img = filme.get("image");
+			System.out.println(geraASCII(img));
 			System.out.println("\u001b[43m\u001b[1m Rating: " + filme.get("imDbRating") + " \u001b[m");
 			// escreve o que esta na chave desejada
 		}
+	}
+	
+	public static String geraASCII(String imagem) throws Exception {
+		//carrega a imagem
+		BufferedImage img = ImageIO.read(new URL(imagem));
+		
+		//redimensiona a imagem
+		int newWidth = 200;
+		int newHeight = (int)(((double)img.getHeight() / img.getWidth()) * newWidth);
+		BufferedImage resizedImg = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+        resizedImg.getGraphics().drawImage(img, 0, 0, newWidth, newHeight, null);
+        
+        //Mapeia os caracteres ASCII conrrespondentes de acordo com a luminosidade
+        String asciiChars = "@#S%=+*:-. ";
+        int numChars = asciiChars.length();
+        int[] luminanceMap = new int[numChars];
+        for (int i = 0; i < numChars; i++) {
+            luminanceMap[i] = (int) (255.0 * ((double) i / (numChars - 1)));
+        }
+        
+        // Converte a imagem em ASCII art
+        StringBuilder asciiArt = new StringBuilder();
+        for (int y = 0; y < newHeight; y++) {
+            for (int x = 0; x < newWidth; x++) {
+                Color color = new Color(resizedImg.getRGB(x, y));
+                double luminance = 0.2126 * color.getRed() + 0.7152 * color.getGreen() + 0.0722 * color.getBlue();
+                int index = 0;
+                for (int i = 0; i < numChars; i++) {
+                    if (luminance > luminanceMap[i]) {
+                        index = i;
+                    } else {
+                        break;
+                    }
+                }
+                asciiArt.append(asciiChars.charAt(index));
+            }
+            asciiArt.append("\n");
+        }
+		return asciiArt.toString();
 	}
 
 }
