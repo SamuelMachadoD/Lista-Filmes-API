@@ -19,8 +19,8 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		// fazer conexão HTTP e buscar os top 250 filmes
-		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies.json"; // Armazena o link da API
+		// fazer conexão HTTP e buscar os top 250 filmes 
+		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopTVs.json"; // Armazena o link da API
 		URI endereco = URI.create(url); //Le e armazena o conteudo da API em uma url
 		var client = HttpClient.newHttpClient();//Instancia um cliente //é possivel trocar o HttpClient por var / deixando para o java sozinho definir como HttpClient ( é preciso esta especificado na direita )
 		var request = HttpRequest.newBuilder(endereco).GET().build();//Faz uma request com a URL //o mesmo do var pode ocorrer aqui
@@ -35,12 +35,14 @@ public class Main {
 		// exibir e manipular os dados e gera ASCII arte
 		for (Map<String, String> filme : listaDeFilmes) { //passa por cada filme da listaDeFilmes
 			System.out.println("---------------------");
+			
 			System.out.println("\u001b[1m\u001b[40m Rank: " + filme.get("rank") + " \u001b[m");
 			System.out.println("\u001b[1m\u001b[47m\u001b[30m " + filme.get("title") + " \u001b[m");
+			System.out.println("\u001b[43m\u001b[1m Rating: " + filme.get("imDbRating") + " \u001b[m");
 			//Gera art ASCII
 			String img = filme.get("image");
 			System.out.println(geraASCII(img));
-			System.out.println("\u001b[43m\u001b[1m Rating: " + filme.get("imDbRating") + " \u001b[m");
+			
 			// escreve o que esta na chave desejada
 		}
 	}
@@ -50,7 +52,7 @@ public class Main {
 		BufferedImage img = ImageIO.read(new URL(imagem));
 		
 		//redimensiona a imagem
-		int newWidth = 200;
+		int newWidth = 125;
 		int newHeight = (int)(((double)img.getHeight() / img.getWidth()) * newWidth);
 		BufferedImage resizedImg = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
         resizedImg.getGraphics().drawImage(img, 0, 0, newWidth, newHeight, null);
