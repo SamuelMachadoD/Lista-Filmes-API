@@ -1,7 +1,5 @@
 package com.ListaFilmesAPI.base.main;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
@@ -12,8 +10,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
+import com.ListaFilmesAPI.aula1.JSON.GeraASCII;
 import com.ListaFilmesAPI.aula1.JSON.JsonParser;
 import com.ListaFilmesAPI.aula2.gerador.GeradorDeFigurinhas;
 
@@ -47,7 +44,7 @@ public class Main {
 			
 			//Gera art ASCII e cria figurinhas
 			String img = filme.get("image");
-			System.out.println(geraASCII(img));
+			System.out.println(GeraASCII.artASCII(img));
 			
 			InputStream inputStream = new URL(img).openStream();
 			titulo = titulo.replace(":", "-");
@@ -59,44 +56,6 @@ public class Main {
 		}
 	}
 	
-	public static String geraASCII(String imagem) throws Exception {
-		
-		//carrega a imagem
-		BufferedImage img = ImageIO.read(new URL(imagem));
-		
-		//redimensiona a imagem
-		int newWidth = 125;
-		int newHeight = (int)(((double)img.getHeight() / img.getWidth()) * newWidth);
-		BufferedImage resizedImg = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
-        resizedImg.getGraphics().drawImage(img, 0, 0, newWidth, newHeight, null);
-        
-        //Mapeia os caracteres ASCII conrrespondentes de acordo com a luminosidade
-        String asciiChars = "@#S%=+*:-. ";
-        int numChars = asciiChars.length();
-        int[] luminanceMap = new int[numChars];
-        for (int i = 0; i < numChars; i++) {
-            luminanceMap[i] = (int) (255.0 * ((double) i / (numChars - 1)));
-        }
-        
-        // Converte a imagem em ASCII art
-        StringBuilder asciiArt = new StringBuilder();
-        for (int y = 0; y < newHeight; y++) {
-            for (int x = 0; x < newWidth; x++) {
-                Color color = new Color(resizedImg.getRGB(x, y));
-                double luminance = 0.2126 * color.getRed() + 0.7152 * color.getGreen() + 0.0722 * color.getBlue();
-                int index = 0;
-                for (int i = 0; i < numChars; i++) {
-                    if (luminance > luminanceMap[i]) {
-                        index = i;
-                    } else {
-                        break;
-                    }
-                }
-                asciiArt.append(asciiChars.charAt(index));
-            }
-            asciiArt.append("\n");
-        }
-		return asciiArt.toString();
-	}
+	
 
 }
