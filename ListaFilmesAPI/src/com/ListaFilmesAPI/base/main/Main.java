@@ -1,4 +1,4 @@
-package com.ListaFilmesAPI.main;
+package com.ListaFilmesAPI.base.main;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -14,7 +14,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import com.ListaFilmesAPI.figurinhas.GeradorDeFigurinhas;
+import com.ListaFilmesAPI.aula1.JSON.JsonParser;
+import com.ListaFilmesAPI.aula2.gerador.GeradorDeFigurinhas;
 
 public class Main {
 

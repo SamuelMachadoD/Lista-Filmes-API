@@ -1,4 +1,4 @@
-package com.ListaFilmesAPI.main;
+package com.ListaFilmesAPI.aula1.JSON;
 
 import java.util.ArrayList;
 import java.util.HashMap;

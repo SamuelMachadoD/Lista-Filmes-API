@@ -1,4 +1,4 @@
-package com.ListaFilmesAPI.figurinhas;
+package com.ListaFilmesAPI.aula2.gerador;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -37,7 +37,7 @@ public class GeradorDeFigurinhas {
 		graphics.drawImage(imagemOriginal, 0, 0, null);
 		
 		//configurando a fonte
-		var fonte = new Font(Font.SANS_SERIF, Font.BOLD, 130);
+		var fonte = new Font(Font.SANS_SERIF, Font.BOLD, 100);
 		graphics.setFont(fonte);
 		graphics.setColor(Color.RED);
 		
@@ -51,7 +51,6 @@ public class GeradorDeFigurinhas {
 		    file.getParentFile().mkdirs();
 		}
 		ImageIO.write(novaImagem, "png", new FileOutputStream(file));
-		
 		
 	}
 }
