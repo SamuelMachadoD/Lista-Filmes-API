@@ -1,13 +1,19 @@
 package com.ListaFilmesAPI.aula2.gerador;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -39,15 +45,51 @@ public class GeradorDeFigurinhas {
 		graphics.drawImage(imagemOriginal, 0, 0, null);									// Desenha a imagem com graphics
 		
 		// Configurando o Graphics2D
-		var fonte = new Font(Font.SANS_SERIF, Font.BOLD, 100);							// Cria uma fonte e a armazena
+		var fonte = new Font("Impact", Font.BOLD, 100);									// Cria uma fonte e a armazena
 		graphics.setFont(fonte);														// Configura a fonte do Graphics2D para minha variavel
-		graphics.setColor(Color.RED);													// Configurar a cor para vermelho
 		
-		// Escrevendo uma frase na nova imagem
-		String frase = nomeArquivo + " --- " + rank; 									// Concatena e armazena os dados na variavel
-		graphics.drawString(frase, 0, (altura + 50));									// Escreve na imagem recebendo respectivamente: String, x, y
+		switch(rank) {																	// Configurar a cor de acordo com o rank
+			case "1":
+				graphics.setColor(Color.YELLOW);
+				break;
+			case "2":
+				graphics.setColor(Color.LIGHT_GRAY);
+				break;
+			case "3":
+				graphics.setColor(Color.magenta);
+				break;
+			default:
+				graphics.setColor(Color.WHITE);
+				break;
+		}
+														
 		
-		// Escrever a nova imagem em um arquivo, cria uma pasta caso não exista
+		
+		// Escrevendo uma frase
+		String frase = nomeArquivo + " - " + rank + "º"; 									// Concatena e armazena os dados na variavel
+		FontMetrics fontMetrics = graphics.getFontMetrics();							// Pega as medidas do texto (altura, largura)
+		Rectangle2D retanguloFrase = fontMetrics.getStringBounds(frase, graphics);		// Cria um retangulo baseado na altura e largura do texto
+		int larguraTexto = (int) retanguloFrase.getWidth();								// Armazena a posição X do retangulo
+		int posicaoTextoX = (largura - larguraTexto)/2;									// Ajusta a posição X do texto
+		int posicaoTextoY =  (altura + (int)(retanguloFrase.getHeight())) + 10;			// Ajusta posição Y do texto
+		graphics.drawString(frase, posicaoTextoX, posicaoTextoY);						// Escreve na imagem recebendo respectivamente: String, x, y
+		
+		// Fazendo o contorno dessa frase
+		FontRenderContext fontRenderContext = graphics.getFontRenderContext();			
+		var textLayout = new TextLayout(frase, fonte, fontRenderContext);				
+		Shape outline = textLayout.getOutline(null);
+		AffineTransform transform = graphics.getTransform();
+		transform.translate(posicaoTextoX, posicaoTextoY);
+		graphics.setTransform(transform);
+		
+		var outlineStroke = new BasicStroke(largura * 0.004f);
+		graphics.setStroke(outlineStroke);
+		
+		graphics.setColor(Color.BLACK);
+		graphics.draw(outline);
+		graphics.setClip(outline);
+		
+		// Escrever a nova imagem em um arquivo, cria uma pasta caso não exista																				
 		File file = new File("saida/" + (nomeArquivo + ".png")); 						// Armazena diretorio para qual a imagem ira, e seu titulo
 		if (!file.getParentFile().exists()) {											// Verifica se diretorio não é existente
 		    file.getParentFile().mkdirs();												// Caso true, cria o mesmo

@@ -63,8 +63,7 @@ public class Main {
 			// ----------------------------------------Gera figurinha e exporta imagens para diretorio local (saida)---------------------------------------
 			
 			InputStream inputStream = new URL(img).openStream();				// Recebe diretorio da imagem
-			titulo = titulo.replace(":", "-"); 								    // Substitui do titulo : por - para evitar erros do windows
-			rank = "Posição : " + rank; 									    // Prepara string de rank
+			titulo = titulo.replace(":", "-"); 								    // Substitui do titulo : por - para evitar erros do windows									    // Prepara string de rank
 			gerador.cria(inputStream, titulo, rank); 							// Envia o diretorio, o titulo e o rank para a classe processar e gerar as imagens
 			System.out.println();												// Pula linha
 			
