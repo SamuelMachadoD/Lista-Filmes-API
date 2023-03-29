@@ -10,14 +10,13 @@ public class GeraASCII {
 	
 	public static String artASCII(String imagem) throws Exception {
 		
-		//carrega a imagem
-		BufferedImage img = ImageIO.read(new URL(imagem));
+		BufferedImage img = ImageIO.read(new URL(imagem)); 													// Le a url da imagem recebida
 		
-		//redimensiona a imagem
-		int newWidth = 125;
-		int newHeight = (int)(((double)img.getHeight() / img.getWidth()) * newWidth);
-		BufferedImage resizedImg = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
-        resizedImg.getGraphics().drawImage(img, 0, 0, newWidth, newHeight, null);
+		int newWidth = 125;																					// Redimensiona a imagem
+		int newHeight = (int)(((double)img.getHeight() / img.getWidth()) * newWidth);						// |
+		BufferedImage resizedImg = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);		// |
+        resizedImg.getGraphics().drawImage(img, 0, 0, newWidth, newHeight, null);							// |
+        																									// <->
         
         //Mapeia os caracteres ASCII conrrespondentes de acordo com a luminosidade
         String asciiChars = "@#S%=+*:-. ";

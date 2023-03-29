@@ -15,42 +15,44 @@ public class GeradorDeFigurinhas {
 	
 	public void cria(InputStream inputStream, String nomeArquivo, String rank) throws Exception {
 		
-		//leitura da imagem
+		/*
+		* LEITURA DE IMAGENS
+		 *
+		 *	ATRAVÉS DE ARQUIVOS
+		 *	InputStream inputStream = 
+		 *				new FileInputStream(new File("entrada/filme.jpg"));
+		 *
+		 *	POR URL DA INTERNET
+		 *	InputStream inputStream =	
+		 *				new URL(url).openStream();
+		*/
 		
-		//ARQUIVO
-		//InputStream inputStream = 
-		//				new FileInputStream(new File("entrada/filme.jpg"));
-		//INTERNET
-		//InputStream inputStream =	
-		//				new URL(url).openStream();
+		BufferedImage imagemOriginal = ImageIO.read(inputStream);						// Recebe a url/endereço local da imagem
 		
-		BufferedImage imagemOriginal = ImageIO.read(inputStream);
+		int largura = imagemOriginal.getWidth();										// Le e armazena a largura da imagem
+		int altura = imagemOriginal.getHeight();										// Le e armazena a altura da imagem
+		int novaAltura = altura + 200;													// Cria uma nova altura baseada na original para criar um espaço em baixo da imagem
+		BufferedImage novaImagem = new BufferedImage(largura, novaAltura, BufferedImage.TRANSLUCENT); // Cria uma nova imagem com transparencia, com a nova altura e largura
 		
-		//cria nova imagem em memória com transparencia e com tamanho novo
-		int largura = imagemOriginal.getWidth();
-		int altura = imagemOriginal.getHeight();
-		int novaAltura = altura + 200;
-		BufferedImage novaImagem = new BufferedImage(largura, novaAltura, BufferedImage.TRANSLUCENT);
+		// Copiando a imagem original para a nova em memória
+		Graphics2D graphics = (Graphics2D) novaImagem.getGraphics(); 					// Instancia a classe graphics utilizando a imagem nova de referencia
+		graphics.drawImage(imagemOriginal, 0, 0, null);									// Desenha a imagem com graphics
 		
-		//copiar a imagem original para a nova em memória
-		Graphics2D graphics = (Graphics2D) novaImagem.getGraphics();
-		graphics.drawImage(imagemOriginal, 0, 0, null);
+		// Configurando o Graphics2D
+		var fonte = new Font(Font.SANS_SERIF, Font.BOLD, 100);							// Cria uma fonte e a armazena
+		graphics.setFont(fonte);														// Configura a fonte do Graphics2D para minha variavel
+		graphics.setColor(Color.RED);													// Configurar a cor para vermelho
 		
-		//configurando a fonte
-		var fonte = new Font(Font.SANS_SERIF, Font.BOLD, 100);
-		graphics.setFont(fonte);
-		graphics.setColor(Color.RED);
+		// Escrevendo uma frase na nova imagem
+		String frase = nomeArquivo + " --- " + rank; 									// Concatena e armazena os dados na variavel
+		graphics.drawString(frase, 0, (altura + 50));									// Escreve na imagem recebendo respectivamente: String, x, y
 		
-		//escrever uma frase na nova imagem
-		String frase = nomeArquivo + " --- " + rank; 
-		graphics.drawString(frase, 0, (altura + 50));
-		
-		//escrever a nova imagem em um arquivo, cria uma pasta caso não exista
-		File file = new File("saida/" + (nomeArquivo + ".png"));
-		if (!file.getParentFile().exists()) {
-		    file.getParentFile().mkdirs();
+		// Escrever a nova imagem em um arquivo, cria uma pasta caso não exista
+		File file = new File("saida/" + (nomeArquivo + ".png")); 						// Armazena diretorio para qual a imagem ira, e seu titulo
+		if (!file.getParentFile().exists()) {											// Verifica se diretorio não é existente
+		    file.getParentFile().mkdirs();												// Caso true, cria o mesmo
 		}
-		ImageIO.write(novaImagem, "png", new FileOutputStream(file));
+		ImageIO.write(novaImagem, "png", new FileOutputStream(file));					// Imprime a imagem recebendo : A imagem, o tipo, e o diretorio
 		
 	}
 }
