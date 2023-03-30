@@ -35,11 +35,11 @@ public class Main {
 		for (int i = 0; i < 3 ; i++) {           
 			
 			Conteudo conteudo = conteudos.get(i);
-			System.out.println("\u001b[1m\u001b[47m\u001b[30m " + conteudo.getTitulo() + " \u001b[m");					
-			System.out.println(GeradorASCIIArt.artASCII(conteudo.getImagem()));						
+			System.out.println("\u001b[1m\u001b[47m\u001b[30m " + conteudo.titulo() + " \u001b[m");					
+			System.out.println(GeradorASCIIArt.artASCII(conteudo.urlImagem()));						
 			
-			InputStream inputStream = new URL(conteudo.getImagem()).openStream();			// Recebe diretorio da imagem
-			String titulo = conteudo.getTitulo().replace(":", "-"); 						// Substitui do titulo : por - para evitar erros do windows									    // Prepara string de rank
+			InputStream inputStream = new URL(conteudo.urlImagem()).openStream();			// Recebe diretorio da imagem
+			String titulo = conteudo.titulo().replace(":", "-"); 						// Substitui do titulo : por - para evitar erros do windows									    // Prepara string de rank
 			gerador.cria(inputStream, titulo); 												// Envia o diretorio, o titulo e o rank para a classe processar e gerar as imagens
 			System.out.println();															// Pula linha
 			
