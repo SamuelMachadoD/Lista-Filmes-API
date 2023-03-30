@@ -16,7 +16,7 @@ public class ExtratorNasa implements ExtratorDeConteudo{
 		
 		List<Conteudo> conteudos = new ArrayList<>();
 		
-		return listaDeAtributos.stream().map(atributos ->  new Conteudo(atributos.get("title"), atributos.get("url"))).toList(); // Mapeia e busca os atributos presentes na Map
+		return listaDeAtributos.stream().map(atributos ->  new Conteudo(atributos.get("title"), atributos.get("url"))).toList(); // Mapeia, busca e lista os atributos presentes no Json
 		
 	}
 	
