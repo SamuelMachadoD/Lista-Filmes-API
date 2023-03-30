@@ -16,15 +16,7 @@ public class ExtratorNasa implements ExtratorDeConteudo{
 		
 		List<Conteudo> conteudos = new ArrayList<>();
 		
-		for (Map<String, String> atributos : listaDeAtributos) {
-			String titulo = atributos.get("title");									// Busca do json o titulo do filme e armazena	
-			String urlImagem = atributos.get("url");								// Busca url da imagem
-			var conteudo = new Conteudo(titulo, urlImagem);							// Cria um novo objeto conteudo
-			
-			conteudos.add(conteudo);												// Armazena na lista
-		}
-		
-		return conteudos;
+		return listaDeAtributos.stream().map(atributos ->  new Conteudo(atributos.get("title"), atributos.get("url"))).toList(); // Mapeia e busca os atributos presentes na Map
 		
 	}
 	

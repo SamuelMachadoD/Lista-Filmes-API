@@ -9,6 +9,7 @@ import com.ListaFilmesAPI.extratores.ExtratorFilmes;
 import com.ListaFilmesAPI.extratores.ExtratorNasa;
 import com.ListaFilmesAPI.geradores.GeradorASCIIArt;
 import com.ListaFilmesAPI.geradores.GeradorDeFigurinhas;
+import com.ListaFilmesAPI.http.ClienteHTTP;
 
 public class Main {
 
@@ -19,18 +20,15 @@ public class Main {
 		
 		
 		var gerador = new GeradorDeFigurinhas(); 		
-
-// 		API NASA
-//		ExtratorDeConteudo extratorNasa = new ExtratorNasa();
-//		String url = "SK9plXLYpGPq1T6i3O6xfZM1wlOSP09ldLjb9Bvq";
 		
-//		API FILMES
-		ExtratorDeConteudo extratorFilmes = new ExtratorFilmes();
-		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies.json";
+
+		API api = API.TOP_MOVIES;
+		String url = api.getUrl();
+		ExtratorDeConteudo extrator = api.getExtrator();		
 		
 		String json = http.busca(url);
 		
-		List<Conteudo> conteudos = extratorFilmes.extrai(json);
+		List<Conteudo> conteudos = extrator.extrai(json);
 		
 		for (int i = 0; i < 3 ; i++) {           
 			

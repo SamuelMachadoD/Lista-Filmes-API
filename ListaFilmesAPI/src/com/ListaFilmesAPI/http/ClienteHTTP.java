@@ -1,4 +1,4 @@
-package com.ListaFilmesAPI.main;
+package com.ListaFilmesAPI.http;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,7 +9,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 
 public class ClienteHTTP {
 	
-		public String busca(String url) {
+		public String busca(String url){
 			
 			
 			try {
@@ -21,9 +21,9 @@ public class ClienteHTTP {
 				HttpResponse<String> response = client.send(request, BodyHandlers.ofString());		//Gera uma resposta a partir do cliente e request
 				return response.body();  															// Retorna o body da reposta em uma variavel
 				
-			}catch(IOException | InterruptedException ex){
+			}catch(Exception ex){
 				
-				throw new RuntimeException(ex);
+				throw new HttpException("Erro ao consultar URL");
 				
 			}
 
