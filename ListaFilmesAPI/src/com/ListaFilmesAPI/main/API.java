@@ -6,7 +6,7 @@ import com.ListaFilmesAPI.extratores.ExtratorNasa;
 
 public enum API {
 	TOP_MOVIES("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies.json", new ExtratorFilmes()),
-	NASA_APOD("https://api.nasa.gov/planetary/apod?api_key=SK9plXLYpGPq1T6i3O6xfZM1wlOSP09ldLjb9Bvq", new ExtratorNasa());
+	NASA_APOD("https://api.nasa.gov/planetary/apod?api_key=SK9plXLYpGPq1T6i3O6xfZM1wlOSP09ldLjb9Bvq&start_date=2022-04-14&end_date=2022-04-16", new ExtratorNasa());
 	
 	private String url;
 	private ExtratorDeConteudo extrator;

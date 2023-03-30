@@ -17,6 +17,7 @@ public class JsonParser {
 	public List<Map<String, String>> parse(String json){
 		
 		Matcher matcher = REGEX_ITEMS.matcher(json);
+		
         if (!matcher.find()) {
 
             throw new IllegalArgumentException("Não encontrou items.");
